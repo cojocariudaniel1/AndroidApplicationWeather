@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -10,9 +11,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView textView;
+    private TextView currentLocation;
+    private TextView currentLocationTempC;
 
-    private static final String curentLocation = "Romania, Iasi";
+    private static final String defaultLocation = "Romania, Iasi";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.hello_text);
+        currentLocation = findViewById(R.id.id_current_location);
+        currentLocationTempC= findViewById(R.id.id_current_location_temp_c);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -33,7 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void performActions() {
         WeatherApiManager apiManager = new WeatherApiManager(this);
+        apiManager.getCurrentWeather(defaultLocation);
+    }
 
-        apiManager.getCurrentWeather(curentLocation);
+    @SuppressLint("SetTextI18n")
+    public void updateUI(WeatherResponse weatherResponse) {
+        if (weatherResponse != null) {
+            currentLocation.setText(defaultLocation);
+            currentLocationTempC.setText(String.valueOf(weatherResponse.getCurrentWeatherInfo()));
+        } else {
+            currentLocationTempC.setText("EROARE API");
+        }
     }
 }

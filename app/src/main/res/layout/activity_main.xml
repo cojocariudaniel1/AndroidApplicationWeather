@@ -8,12 +8,27 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/hello_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/id_current_location"
+        android:layout_width="102dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/weather_app"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="current_location" />
+
+    <TextView
+        android:id="@+id/id_current_location_temp_c"
+        android:layout_width="387dp"
+        android:layout_height="632dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/temp_c_current_location"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

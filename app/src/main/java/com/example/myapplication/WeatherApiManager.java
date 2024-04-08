@@ -2,7 +2,10 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,31 +15,32 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WeatherApiManager {
     private final Context context;
+    private WeatherResponse weatherResponse;
 
     public WeatherApiManager(Context context) {
         this.context = context;
     }
 
     public void getCurrentWeather(String location) {
-        // Initializare Retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(WeatherApiService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        // Creează instanța interfeței WeatherApiService
         WeatherApiService service = retrofit.create(WeatherApiService.class);
 
-        // trimite cererea api.
         Call<WeatherResponse> call = service.getCurrentWeather(WeatherApiService.API_KEY, location, "no");
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
-            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                // Procesare cerere daca raspunsul este bun
+            public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
                 if (response.isSuccessful()) {
-                    WeatherResponse weatherResponse = response.body();
+                    weatherResponse = response.body();
                     if (weatherResponse != null) {
-                        System.out.println(weatherResponse.getCurrentWeatherInfo());
+                        Log.e("**DEBUG**", "weatherResponse is true");
+                        setWeatherResponse(weatherResponse);
+
+                        // Procesam raspunsul
+                        processWeatherResponse();
                     }
                 } else {
                     Toast.makeText(context, "Eroare: " + response.code(), Toast.LENGTH_SHORT).show();
@@ -45,10 +49,19 @@ public class WeatherApiManager {
             }
 
             @Override
-            public void onFailure(Call<WeatherResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
                 Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show();
                 System.out.println("WeatherApiManager: Network error");
             }
         });
     }
+
+    private void processWeatherResponse() {
+        ((MainActivity) context).updateUI(weatherResponse);
+    }
+
+    public void setWeatherResponse(WeatherResponse weatherResponseX) {
+        weatherResponse = weatherResponseX;
+    }
+
 }
