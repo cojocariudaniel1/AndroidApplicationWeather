@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.motion.widget.Debug;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +30,8 @@ public class WeatherApiManager {
 
         WeatherApiInterface service = retrofit.create(WeatherApiInterface.class);
 
-        Call<WeatherResponse> call = service.getCurrentWeather(WeatherApiInterface.API_KEY, location, "no");
+//        Call<WeatherResponse> call = service.getCurrentWeather(WeatherApiInterface.API_KEY, location, "no");
+        Call<WeatherResponse> call = service.getForecastWeather(WeatherApiInterface.API_KEY, location, 4, "yes", "no");
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
@@ -45,6 +47,8 @@ public class WeatherApiManager {
                 } else {
                     Toast.makeText(context, "Eroare: " + response.code(), Toast.LENGTH_SHORT).show();
                     System.out.println("WeatherApiManager: Error occurred");
+                    System.out.println("RESPONSE: " + response);
+                    System.out.println("RESPONSE: " + call);
                 }
             }
 
@@ -52,6 +56,7 @@ public class WeatherApiManager {
             public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
                 Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show();
                 System.out.println("WeatherApiManager: Network error");
+                System.out.println(t);
             }
         });
     }

@@ -60,8 +60,16 @@ public class WeatherResponse {
         builder.append("Wind: ").append(current.getwind_kph()).append(" km/h ").append(current.getwind_dir()).append("\n");
         builder.append("Pressure: ").append(current.getpressure_mb()).append(" mb (").append(current.getpressure_in()).append(" in)").append("\n");
         builder.append("Humidity: ").append(current.getHumidity()).append("%").append("\n");
-        builder.append("UV Index: ").append(current.getUv()).append("\n");
 
+        return builder.toString();
+    }
+
+    public String getForecastInfo() {
+        List<Forecastday> forecastdayList = getForecast().getForecastday();
+        StringBuilder builder = new StringBuilder();
+        for (int x = 0; x < forecastdayList.size(); x++) {
+            builder.append(forecastdayList.get(x).getDate() + " : ").append(forecastdayList.get(x).getDay().getAvgtemp_c() + " °C").append("\n");
+        }
         return builder.toString();
     }
 }
@@ -721,6 +729,7 @@ class Forecast {
 
     private List<Forecastday> forecastday;
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+
 
     public List<Forecastday> getForecastday() {
         return forecastday;

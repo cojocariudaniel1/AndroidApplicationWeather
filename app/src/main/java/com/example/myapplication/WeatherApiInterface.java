@@ -12,4 +12,8 @@ public interface WeatherApiInterface {
     @GET("current.json")
     Call<WeatherResponse> getCurrentWeather(@Query("key") String key, @Query("q")String q, @Query("aqi") String aqi);
 
+    @GET("forecast.json")
+    Call<WeatherResponse> getForecastWeather(@Query("key") String key, @Query("q")String q, @Query("days") Integer days, @Query("aqi") String aqi,  @Query("alerts") String alert);
+
+
 }
