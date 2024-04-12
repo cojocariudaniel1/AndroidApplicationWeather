@@ -23,13 +23,13 @@ public class WeatherApiManager {
 
     public void getCurrentWeather(String location) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(WeatherApiService.BASE_URL)
+                .baseUrl(WeatherApiInterface.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        WeatherApiService service = retrofit.create(WeatherApiService.class);
+        WeatherApiInterface service = retrofit.create(WeatherApiInterface.class);
 
-        Call<WeatherResponse> call = service.getCurrentWeather(WeatherApiService.API_KEY, location, "no");
+        Call<WeatherResponse> call = service.getCurrentWeather(WeatherApiInterface.API_KEY, location, "no");
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {

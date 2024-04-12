@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateUI(WeatherResponse weatherResponse) {
         if (weatherResponse != null) {
             currentLocation.setText(defaultLocation);
-            currentLocationTempC.setText(String.valueOf(weatherResponse.getCurrentWeatherInfo()));
+            currentLocationTempC.setText(String.valueOf(weatherResponse.getcurrentInfo()));
         } else {
             currentLocationTempC.setText("EROARE API");
         }
